@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>¿Alcanza el gas?</title>
+<meta name="description" content="La demanda de gas argentina, el frío y el pico del invierno, con 30 años del ENARGAS y los partes diarios desde 2014.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono&display=swap">
+<style>
+:root{--bg:#0e1b25;--ink:#f2f2f2;--muted:#8fa3b0;--rule:#22333f;--acento:#f2b134;--azul:#26c6da;--panel:#15242f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;line-height:1.5}
+main{max-width:980px;margin:0 auto;padding:32px 16px 64px}
+h1{font-size:2rem;margin:0 0 4px;letter-spacing:-.01em}
+h2{font-size:1.25rem;margin:40px 0 8px;color:var(--acento)}
+p,li{max-width:68ch}
+.sub{color:var(--muted);margin:0 0 24px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:20px 0}
+.kpi{background:var(--panel);border-radius:8px;padding:14px 16px}
+.kpi b{display:block;font-size:1.7rem;font-variant-numeric:tabular-nums;color:var(--acento)}
+.kpi span{color:var(--muted);font-size:.9rem}
+figure{margin:16px 0}figure img{width:100%;height:auto;border-radius:6px}figcaption{color:var(--muted);font-size:.85rem}
+.tabla{overflow-x:auto;margin:12px 0}table{border-collapse:collapse;width:100%;font-size:.9rem;font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}th:first-child,td:first-child{text-align:left}
+th{color:var(--muted);font-weight:600}
+a{color:var(--azul)}
+.nota{color:var(--muted);font-size:.9rem}
+footer{margin-top:48px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--rule);padding-top:16px}
+</style>
+</head>
+<body>
+<main>
+<h1>¿Alcanza el gas?</h1>
+<p class="sub">La demanda de gas de la Argentina, el frío y el pico del invierno. Treinta años de consumo mensual del ENARGAS, más de 4.600 partes diarios desde 2014 y la temperatura diaria de diez ciudades.</p>
+
+<div class="kpis">
+  <div class="kpi"><b>+3,3 / −2,6</b><span>millones de m³ por grado-día en invierno: lo que suman los hogares y lo que pierden las centrales</span></div>
+  <div class="kpi"><b>5,2 %</b><span>error del pronóstico más simple del total, igual al SARIMA del trabajo sobre España</span></div>
+  <div class="kpi"><b>27 % → 7 %</b><span>la parte del gas de invierno que vino de afuera, de 2021 a 2026</span></div>
+  <div class="kpi"><b>141</b><span>millones de m³ por día: el techo de gas propio del invierno 2026</span></div>
+</div>
+
+<h2>El frío no sube el total: lo redistribuye</h2>
+<figure><img src="figures/redistribucion.png" alt="Cambio del consumo de invierno contra el cambio de grados-día"><figcaption>Cuando hace frío se prioriza a los hogares y se corta a los demás: el total de invierno mide lo que el sistema puede entregar.</figcaption></figure>
+<figure><img src="figures/estacionalidad.png" alt="Perfil mensual por tipo de usuario"></figure>
+
+<h2>Diez años de pronósticos</h2>
+<figure><img src="figures/validacion.png" alt="Error de cada modelo en el total y en los hogares"></figure>
+<p>En el total gana repetir el mismo mes del año anterior. En los hogares, la temperatura baja el error a la mitad si se sabe qué tiempo va a hacer.</p>
+<figure><img src="figures/escenarios.png" alt="El consumo residencial y el invierno 2027 en tres escenarios"></figure>
+
+<h2>Cómo se cubrió cada invierno</h2>
+<figure><img src="figures/inviernos.png" alt="GNL, importación por el norte y techo de gas propio por invierno"></figure>
+<figure><img src="figures/invierno_2026.png" alt="El invierno 2026 día por día"></figure>
+
+<h2>El invierno que viene</h2>
+<figure><img src="figures/invierno_2027.png" alt="Faltante físico y GNL esperado para el invierno 2027 según el clima"></figure>
+<div class="tabla"><table>
+<thead><tr><th>Invierno 2027 con el clima de…</th><th>Días con faltante</th><th>Faltante físico, millones de m³</th><th>GNL operando como 2024-2026</th></tr></thead>
+<tbody>
+<tr><td>un invierno cálido (p10)</td><td>44</td><td>222</td><td>1.031</td></tr>
+<tr><td>uno normal (mediana)</td><td>57</td><td>395</td><td>1.231</td></tr>
+<tr><td>uno frío (p90)</td><td>72</td><td>584</td><td>1.417</td></tr>
+</tbody></table></div>
+<p class="nota">El faltante físico es el balance nacional contra el techo de gas propio de 2026, el mínimo a cubrir. El GNL que se usa es más: entra por Escobar, al lado del AMBA, y cubre un cuello regional; además se contrata antes del invierno. Todo supone la capacidad de transporte de 2026.</p>
+
+<h2>Cómo</h2>
+<ul>
+  <li>Consumo mensual por tipo de usuario y distribuidora del ENARGAS desde 1996, por la API de series del Estado.</li>
+  <li>Partes diarios del ENARGAS desde 2014: consumo por distribuidora, inyección total, GNL e importación por el norte.</li>
+  <li>Temperatura diaria del reanálisis ERA5 en una ciudad por distribuidora, convertida en grados-día de calefacción.</li>
+  <li>Código, tests y notebooks: <a href="https://github.com/dpinero14/gas-lab">github.com/dpinero14/gas-lab</a>.</li>
+</ul>
+
+<footer>gas-lab · Sur Analytics · ENARGAS · ERA5 (Copernicus, vía Open-Meteo) · inspirado en el trabajo sobre España de Diego Agudo.</footer>
+</main>
+</body>
+</html>
