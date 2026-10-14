@@ -195,6 +195,28 @@ caño nuevo deja sacar y no cuenta el gas que hoy se corta a la industria ni el 
 centrales. Y las compresoras del Norte no evitan un solo barco: su gas va al NOA, que es otro
 problema, el de Bolivia.
 
+### Qué predecimos para el invierno 2027
+
+Los dos modelos encadenados: el del día (cuánto gas pide el país según el frío, con el clima de
+cada invierno desde 1997) y la red (cuánto de ese gas no llega aunque Neuquén lo tenga). La suma
+del invierno es el GNL que hace falta **por falta de caño**, con la red de hoy y con el Perito
+Moreno ampliado el 1 de abril de 2027. Al lado, lo que se compraría operando como en 2024-2026,
+que es lo que marcan los contratos y no la necesidad física.
+
+| Invierno 2027 | Barcos por el caño, red de hoy | Barcos por el caño, Perito Moreno a tiempo | Barcos operando como en 2024-2026 |
+|---|---|---|---|
+| Cálido (p10) | 2 | 0 | 13 |
+| Normal (mediana) | 6 | 0,2 | 15 |
+| Frío (p90) | 11 | 1,5 | 18 |
+
+![Invierno 2027: cuántos barcos hacen falta](docs/figures/prediccion_2027.png)
+
+La predicción, verificable en octubre de 2027: **si el Perito Moreno ampliado llega el 1 de abril,
+el invierno 2027 no necesita barcos por falta de caño**. Si se compran doce o quince igual, es
+contrato, no necesidad. Si la obra se atrasa, hacen falta entre dos y once según el frío. El 2026
+ya lo muestra: entraron 14,5 barcos, el balance nacional necesitaba 2,6 y el caño 5,9; el resto
+fue contrato.
+
 ## Limitaciones
 
 - **La red es un flujo máximo, no una simulación hidráulica.** Sin presiones, line pack ni

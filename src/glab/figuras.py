@@ -324,3 +324,35 @@ def red_balance(tablas: dict[str, pd.DataFrame], path, orden: list[str], rotulos
             fuente="gas-lab · red y partes diarios del ENARGAS · costos: TGS (RIGI 676/2026), TGN (17/9/2026); Kirchner etapa 2 estimado a 2 MUSD/km · GNL a 0,65 MUSD por MMm³ puesto en Escobar")
     fig.subplots_adjust(top=0.80, bottom=0.13, left=0.30, right=0.98, wspace=0.08)
     return _save(fig, path)
+
+
+def prediccion_2027(t: pd.DataFrame, path, real_2026: float) -> Path:
+    """Barcos que hacen falta el invierno 2027 por el caño, con la red de hoy y con el Perito Moreno a tiempo, contra lo que se compraría.
+
+    `t` tiene una fila por clima (cálido, normal, frío) y columnas `hoy`, `gpm35`, `contrato` en buques.
+    """
+    plt = _plt()
+    fig, ax = plt.subplots(figsize=(12, 6.6), facecolor=BG)
+    _style(ax, grid="y")
+    x = np.arange(len(t))
+    w = 0.26
+    series = [("contrato", GRIS, "lo que se compraría operando como en 2024-2026"), ("hoy", ROJO, "lo que hace falta por el caño, con la red de hoy"),
+              ("gpm35", VERDE, "lo que hace falta si el Perito Moreno ampliado llega el 1 de abril")]
+    for k, (col, c, rot) in enumerate(series):
+        bars = ax.bar(x + (k - 1) * w, t[col].values, w, color=c, zorder=3, label=rot)
+        for b in bars:
+            v = b.get_height()
+            ax.text(b.get_x() + b.get_width() / 2, v + 0.25, f"{v:.0f}" if v >= 0.95 else ("0" if v < 0.1 else f"{v:.1f}".replace(".", ",")),
+                    ha="center", color=INK, fontsize=12, fontweight="bold")
+    ax.axhline(real_2026, color=AMBAR, lw=1.4, ls="--", zorder=2)
+    ax.text(len(t) - 0.6, real_2026 + 0.3, f"invierno 2026: {real_2026:.1f} barcos".replace(".", ","), color=AMBAR, fontsize=10, ha="right")
+    ax.set_xticks(x)
+    ax.set_xticklabels(list(t.index), color=INK, fontsize=11)
+    ax.set_ylabel("barcos de GNL (85 millones de m³), mayo a septiembre", color=MUTED, fontsize=10)
+    ax.set_ylim(0, max(20, float(t.values.max()) + 2))
+    ax.legend(loc="upper left", frameon=False, labelcolor=INK, fontsize=10)
+    _titles(fig, "Invierno 2027: cuántos barcos hacen falta, y cuántos se van a comprar",
+            "el modelo del día (demanda según el frío, 29 inviernos de clima) encadenado con la red (capacidad por tramo, flujo máximo día por día)",
+            fuente="gas-lab · partes diarios del ENARGAS 2014-2026 · ERA5 · capacidades ENARGAS 2025 · Perito Moreno: TGS, RIGI 676/2026, 1/4/2027")
+    fig.subplots_adjust(top=0.85, bottom=0.1, left=0.07, right=0.97)
+    return _save(fig, path)

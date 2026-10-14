@@ -54,6 +54,12 @@ escribe Diego.
     inviernos; el Tratayén–La Carlota (US$ 1.500 M), en 4,8; la etapa 2 del Kirchner (estimada en
     950), en 3. Las dos que cierran el invierno, en 5 a 9. En un invierno frío, la mitad. Las
     compresoras del Norte no evitan un solo barco.
+14. **La predicción: invierno 2027.** Los dos modelos encadenados (demanda según el frío + red).
+    Barcos que hacen falta por el caño: con la red de hoy, 2 / 6 / 11 (invierno cálido / normal /
+    frío); con el Perito Moreno ampliado el 1 de abril de 2027, 0 / 0,2 / 1,5. Lo que se
+    compraría operando como en 2024-2026: 13 / 15 / 18. Si el Perito Moreno llega a tiempo, el
+    invierno que viene no necesita barcos por falta de caño; si se compran doce o quince igual, es
+    contrato, no necesidad. Verificable en octubre de 2027.
 
 ## Límites
 
@@ -73,6 +79,7 @@ escribe Diego.
 - De 27 % a 7 %: cómo Vaca Muerta y el Perito Moreno cambiaron el invierno.
 - Faltó caño, no gas: Neuquén produce 121 y tiene 99 de salida; qué obra cierra el invierno
   (ninguna sola).
+- La apuesta: en 2027, cero barcos por falta de caño si el Perito Moreno llega en abril.
 
 ## Links
 
