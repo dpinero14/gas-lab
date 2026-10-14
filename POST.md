@@ -15,20 +15,21 @@ escribe Diego.
 3. **Dos estacionalidades opuestas.** Los hogares consumen cinco veces más en julio que en enero;
    las centrales tienen el pico en verano, por el aire acondicionado.
 4. **La parte importada del invierno bajó de 27 % a 7 %.** Récord de GNL en 2021 (3.200 millones
-   de m³ de mayo a septiembre); en 2026, 1.017. Bolivia se fue en 2024. El máximo diario de gas
+   de m³ de mayo a septiembre); en 2026, 1.231 (14,5 buques). Bolivia se fue en 2024. El máximo diario de gas
    propio pasó de 113 a 146 millones de m³ con el gasoducto Perito Moreno.
 5. **El GNL no sigue al frío.** Entre 2021 y 2026, la correlación entre el GNL de cada invierno y
-   su frío es de -0,19: se compra antes, por contrato.
+   su frío es de -0,53: se compra antes, por contrato.
 6. **El día más frío de 2026 (3 de julio):** 117 millones de m³ a las distribuidoras, 163 de
    inyección, 141 de gas propio, 20 de GNL. El techo de gas propio, 141, no se superó en todo el
    invierno.
 7. **El invierno 2027.** Con el tiempo de cada invierno desde 1997 y la capacidad de 2026: un
-   invierno normal deja faltante físico en 57 días (395 millones de m³, unos 5 buques como mínimo);
-   operando como en 2024-2026 se usarían unos 1.230 millones de m³ de GNL (unos 14 buques); uno
-   frío, 1.420 (17 buques).
-8. **El faltante nacional no alcanza para explicar el GNL.** En 2026 el balance nacional dio 371
-   millones de m³ de faltante y entraron 1.017: el GNL entra por Escobar, al lado del AMBA, y
-   cubre un cuello regional, no solo nacional.
+   invierno normal deja faltante físico en 43 días (267 millones de m³, unos 3 buques como mínimo);
+   operando como en 2024-2026 se usarían unos 1.290 millones de m³ de GNL (unos 15 buques); uno
+   frío, 1.485 (17,5 buques).
+8. **El faltante nacional no alcanza para explicar el GNL.** En 2026 el balance nacional dio 221
+   millones de m³ de faltante en 37 días y entraron 1.231: el GNL entra por Escobar, al lado del
+   AMBA, y cubre un cuello regional, no solo nacional. (Los partes de julio que sirve hoy el
+   ENARGAS dan 447 de GNL; los del 25/9 daban 241: el invierno pasó de 1.017 a 1.231.)
 
 9. **El gas está en un solo lugar y los caños que salen de ahí están llenos.** Toda la suba de
    producción de doce años (+42 millones de m³ por día) es de Neuquén; Austral, Golfo San Jorge y

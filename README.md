@@ -73,12 +73,12 @@ residencial de junio a agosto de 2027 va de 49,5 millones de m³ por día en un 
 | 2021 | 3.211 | 1.715 | 27 % | 113 |
 | 2023 | 2.389 | 1.294 | 17 % | 127 |
 | 2025 | 1.281 | 129 | 7 % | 146 |
-| 2026 (a 1/9) | 1.017 | 209 | 7 % | 141 |
+| 2026 | 1.231 | 258 | 7 % | 141 |
 
 Bolivia se fue en 2024; lo que figura por el norte en 2025 y 2026 es el gasoducto Norandino, que
 trae gas desde Chile. El gas propio máximo creció con el gasoducto Perito Moreno, y la parte
 importada bajó de 27 % a 7 %. El GNL bajó, pero no desapareció, y no sigue al frío: entre 2021 y
-2026 la correlación entre el GNL de cada invierno y sus grados-día es de -0,19.
+2026 la correlación entre el GNL de cada invierno y sus grados-día es de -0,53.
 
 ![Cómo se cubrió cada invierno](docs/figures/inviernos.png)
 
@@ -90,18 +90,18 @@ millones de m³ por día, no se superó en todo el invierno.
 
 **¿Cuánto falta el invierno que viene?** El modelo del día pone la demanda prioritaria en función
 del frío con inercia (las casas tardan en enfriarse: con el frío del día solo explica la mitad
-de la variación; con los días previos, el 76 %), suma la demanda directa sin cortes y la
+de la variación; con los días previos, el 81 %), suma la demanda directa sin cortes y la
 diferencia entre inyección y consumo, y la compara con el techo de gas propio de 2026. Con el
 tiempo de cada invierno desde 1997:
 
 | Invierno 2027 con el clima de... | Días con faltante | Faltante físico (millones de m³) | GNL operando como 2024-2026 |
 |---|---|---|---|
-| un invierno cálido (p10) | 44 | 222 | 1.031 |
-| uno normal (mediana) | 57 | 395 | 1.231 |
-| uno frío (p90) | 72 | 584 | 1.417 |
+| un invierno cálido (p10) | 27 | 114 | 1.072 |
+| uno normal (mediana) | 43 | 267 | 1.289 |
+| uno frío (p90) | 58 | 423 | 1.485 |
 
-El faltante físico nacional es el mínimo a cubrir; en 2026 fue un tercio del GNL que entró
-(371 contra 1.017 millones de m³, con el calendario bien marcado: correlación diaria 0,64). La
+El faltante físico nacional es el mínimo a cubrir; en 2026 fue menos de un quinto del GNL que
+entró (221 contra 1.231 millones de m³, con el calendario marcado: correlación diaria 0,57). La
 diferencia tiene dos explicaciones. El GNL entra por Escobar, al lado del AMBA, y reemplaza gas
 propio que no llega por los troncales aunque el total alcance: el cuello es regional. Y los
 buques se contratan antes del invierno. Por eso la segunda columna, que mide cuánto GNL se usó en
