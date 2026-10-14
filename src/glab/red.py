@@ -229,3 +229,60 @@ def comparar_obras(oferta: pd.Series, demanda: pd.Series, combinaciones: dict[st
         fila["gnl_usado"] = r["usado"].get("ESCOBAR", 0.0) + r["usado"].get("BAHIA_GNL", 0.0)
         filas[nombre] = fila
     return pd.DataFrame(filas).T
+
+
+# --- el invierno entero, día por día ------------------------------------------------------------------
+
+# Lo que cuesta un millón de m³ de GNL puesto en Escobar, en millones de dólares. 2025: 27 cargamentos,
+# US$ 697,9 M (Enarsa) por 1.281 MMm³ de invierno = 0,54. 2026 con TTF más caro: unos 18,5 USD/MMBtu
+# puestos en Escobar = 0,65. Es un parámetro: se declara y se puede cambiar.
+GNL_MUSD_POR_MMM3 = 0.65
+
+
+def produccion_mensual(path) -> pd.DataFrame:
+    """Producción diaria media por cuenca y mes (MMm³/d) a partir de la serie del Capítulo IV."""
+    cu = pd.read_csv(path, parse_dates=["indice_tiempo"]).set_index("indice_tiempo")
+    d = cu.index.days_in_month
+    out = pd.DataFrame({"neuquina": cu["produccion_gas_natural_cuenca_neuquina"], "austral": cu["produccion_gas_natural_cuenca_austral"],
+                        "gsj": cu["produccion_gas_natural_cuenca_gsj"], "noroeste": cu["produccion_gas_natural_cuenca_noroeste"]})
+    return out.div(d, axis=0).div(1000.0)
+
+
+def faltante_invierno(partes: list[dict], prod_mensual: pd.DataFrame, obras: list[str] = (), escala_distribuidoras: float = 1.0,
+                      exportacion: float = 1.0, neuquina_extra: float = 0.0) -> pd.DataFrame:
+    """Para cada día: la demanda, lo que la red entrega sin barcos y el faltante por nodo. Es el GNL mínimo que ese día necesita."""
+    g = grafo(obras)
+    filas = []
+    for p in partes:
+        f = pd.Timestamp(p["fecha"])
+        mes = prod_mensual.loc[f.strftime("%Y-%m-01")] if f.strftime("%Y-%m-01") in prod_mensual.index.strftime("%Y-%m-01") else prod_mensual.iloc[-1]
+        prod = {k: float(mes[k]) for k in ("neuquina", "austral", "gsj", "noroeste")}
+        prod["neuquina"] += neuquina_extra
+        dem = demanda_del_dia(p, exportacion=exportacion, escala_distribuidoras=escala_distribuidoras)
+        r = flujo_maximo(g, oferta_del_dia(prod, gnl=0.0, bolivia=0.0), dem)
+        fila = {"fecha": f, "demanda": dem.sum(), "entregado": r["total"], "faltante": r["faltante"].sum(),
+                "gnl_real": p.get("gnl_escobar_gasandes") or 0.0}
+        fila.update({f"falta_{n}": r["faltante"][n] for n in DESTINOS})
+        filas.append(fila)
+    return pd.DataFrame(filas).set_index("fecha")
+
+
+def balance_obras(partes: list[dict], prod_mensual: pd.DataFrame, combinaciones: dict[str, list[str]], costos: dict[str, float],
+                  escala_distribuidoras: float = 1.0, neuquina_extra: float = 0.0, precio_gnl: float = GNL_MUSD_POR_MMM3) -> pd.DataFrame:
+    """GNL mínimo por invierno con cada combinación de obras, lo que ahorra contra la red de hoy y en cuántos inviernos se paga."""
+    base = None
+    filas = {}
+    for nombre, obras in combinaciones.items():
+        t = faltante_invierno(partes, prod_mensual, obras, escala_distribuidoras, neuquina_extra=neuquina_extra)
+        # Al NOA el GNL de Escobar no llega: su faltante solo lo cubre el gas de Bolivia o la reversión del Norte.
+        noa = t["falta_NOA"].sum()
+        gnl = t["faltante"].sum() - noa
+        if base is None:
+            base = gnl
+        ahorro_mmm3 = base - gnl
+        ahorro_musd = ahorro_mmm3 * precio_gnl
+        costo = costos.get(nombre)
+        filas[nombre] = {"gnl_minimo_mmm3": gnl, "norte_minimo_mmm3": noa, "dias_con_faltante": int((t["faltante"] > 0.05).sum()),
+                         "faltante_max_dia": t["faltante"].max(), "ahorro_mmm3": ahorro_mmm3, "ahorro_musd_por_invierno": ahorro_musd,
+                         "costo_musd": costo, "inviernos_para_pagarse": (costo / ahorro_musd) if (costo and ahorro_musd > 0) else float("nan")}
+    return pd.DataFrame(filas).T

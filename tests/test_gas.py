@@ -164,3 +164,17 @@ def test_red_flujo_maximo_reproduce_el_cuello():
     for o in red.OBRAS:
         r = red.flujo_maximo(red.grafo([o]), red.oferta_del_dia(prod, gnl=0.0, bolivia=0.0), dem)
         assert r["faltante"].sum() <= sin["faltante"].sum() + 1e-6
+
+
+def test_red_invierno_y_balance():
+    import pandas as pd
+    from glab import red
+    base = {"gasnor": 4836.0, "cuyana": 10632.0, "centro": 9813.0, "litoral": 8320.0, "naturgy_ban": 18024.0, "metrogas": 22866.0,
+            "pampeana": 22135.0, "sur": 18637.0, "gasnea": 1441.0, "tgn_directo": 13035.0, "tgs_directo": 17525.0, "gnl_escobar_gasandes": 20.0}
+    partes = [{**base, "fecha": f"2026-07-{d:02d}"} for d in (1, 2, 3)] + [{**{k: v * 0.7 for k, v in base.items()}, "fecha": "2026-07-04"}]
+    prod = pd.DataFrame({"neuquina": [122.0], "austral": [25.0], "gsj": [8.0], "noroeste": [2.6]}, index=pd.to_datetime(["2026-07-01"]))
+    t = red.faltante_invierno(partes, prod, [])
+    assert len(t) == 4 and t["faltante"].iloc[:3].gt(10).all() and t["faltante"].iloc[3] < 1.0
+    b = red.balance_obras(partes, prod, {"hoy": [], "gpm35": ["gpm35"]}, {"gpm35": 780})
+    assert b.loc["gpm35", "gnl_minimo_mmm3"] < b.loc["hoy", "gnl_minimo_mmm3"]
+    assert b.loc["gpm35", "inviernos_para_pagarse"] > 0

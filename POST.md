@@ -47,6 +47,12 @@ escribe Diego.
     contrario; las compresoras del Norte no cambian nada en el centro. Cierran el día más frío
     sin barcos: Perito Moreno + Tratayén–La Carlota, o Perito Moreno + la etapa 2 del Kirchner,
     que nadie tiene en agenda. Dos inviernos a barco como mínimo.
+13. **Las obras se pagan con los barcos que evitan.** El invierno 2026 día por día sobre la red:
+    sin barcos faltan 498 millones de m³ en 83 días, casi todo en el AMBA (correlación con el GNL
+    real 0,82). A 0,65 MUSD por millón de m³, el Perito Moreno ampliado (US$ 780 M) se paga en 2,5
+    inviernos; el Tratayén–La Carlota (US$ 1.500 M), en 4,8; la etapa 2 del Kirchner (estimada en
+    950), en 3. Las dos que cierran el invierno, en 5 a 9. En un invierno frío, la mitad. Las
+    compresoras del Norte no evitan un solo barco.
 
 ## Límites
 

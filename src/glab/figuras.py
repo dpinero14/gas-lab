@@ -284,3 +284,43 @@ def red_obras(tablas: dict[str, pd.DataFrame], path, orden: list[str], rotulos: 
             fuente="gas-lab · capacidades: ENARGAS informe anual 2025 · obras: TGS (RIGI 676/2026), TGN (17/9/2026), Enarsa, Secretaría de Energía")
     fig.subplots_adjust(top=0.80, bottom=0.13, left=0.30, right=0.98, wspace=0.06)
     return _save(fig, path)
+
+
+def red_balance(tablas: dict[str, pd.DataFrame], path, orden: list[str], rotulos: dict[str, str]) -> Path:
+    """GNL mínimo por invierno con cada obra, y en cuántos inviernos se paga la obra con lo que ahorra."""
+    plt = _plt()
+    fig, axes = plt.subplots(1, 2, figsize=(11.5, 5.4), facecolor=BG)
+    (t1_nombre, t1), (t2_nombre, t2) = list(tablas.items())[:2]
+    y = list(range(len(orden)))
+    ax = axes[0]
+    _style(ax, grid="x")
+    for k, (t, c, dx) in enumerate([(t1, AZUL, -0.17), (t2, AMBAR, 0.17)]):
+        vals = [t.loc[o, "gnl_minimo_mmm3"] for o in orden]
+        ax.barh([yy + dx for yy in y], vals, color=c, height=0.32, zorder=3)
+        for yy, v in zip(y, vals):
+            ax.text(v + 12, yy + dx, f"{v:.0f}", color=INK, fontsize=8.5, va="center")
+    ax.set_yticks(y)
+    ax.set_yticklabels([rotulos[o] for o in orden], color=INK, fontsize=9)
+    ax.set_ylim(len(orden) - 0.4, -0.6)
+    ax.set_xlabel("GNL mínimo por invierno, millones de m³", color=MUTED, fontsize=9)
+    ax.set_title("Cuánto GNL hace falta con cada obra", color=INK, fontsize=10.5, loc="left", pad=8)
+    ax.text(0.98, 0.02, f"■ {t1_nombre}   ", color=AZUL, fontsize=8.5, ha="right", transform=ax.transAxes)
+    ax.text(0.98, 0.07, f"■ {t2_nombre}   ", color=AMBAR, fontsize=8.5, ha="right", transform=ax.transAxes)
+    ax = axes[1]
+    _style(ax, grid="x")
+    for k, (t, c, dx) in enumerate([(t1, AZUL, -0.17), (t2, AMBAR, 0.17)]):
+        vals = [t.loc[o, "inviernos_para_pagarse"] for o in orden]
+        vals = [0 if pd.isna(v) else v for v in vals]
+        ax.barh([yy + dx for yy in y], vals, color=c, height=0.32, zorder=3)
+        for yy, v, o in zip(y, vals, orden):
+            ax.text(v + 0.15, yy + dx, f"{v:.1f}" if v else ("sin costo publicado" if pd.notna(t.loc[o, "ahorro_musd_por_invierno"]) and t.loc[o, "ahorro_musd_por_invierno"] > 0 else "no ahorra"),
+                    color=INK if v else MUTED, fontsize=8.5, va="center")
+    ax.set_yticks(y)
+    ax.set_yticklabels([""] * len(orden))
+    ax.set_ylim(len(orden) - 0.4, -0.6)
+    ax.set_xlabel("inviernos para pagarse con el GNL que evita", color=MUTED, fontsize=9)
+    ax.set_title("En cuántos inviernos se paga", color=INK, fontsize=10.5, loc="left", pad=8)
+    _titles(fig, "Las obras contra los barcos", "GNL mínimo que cada invierno necesita con cada obra, y lo que la obra tarda en pagarse con ese GNL evitado",
+            fuente="gas-lab · red y partes diarios del ENARGAS · costos: TGS (RIGI 676/2026), TGN (17/9/2026); Kirchner etapa 2 estimado a 2 MUSD/km · GNL a 0,65 MUSD por MMm³ puesto en Escobar")
+    fig.subplots_adjust(top=0.80, bottom=0.13, left=0.30, right=0.98, wspace=0.08)
+    return _save(fig, path)

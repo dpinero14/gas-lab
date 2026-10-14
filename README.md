@@ -167,6 +167,34 @@ Perito Moreno de 2027 con el Tratayén–La Carlota de 2029, o el Perito Moreno 
 Kirchner, que nadie tiene en agenda. Dos inviernos a barco como mínimo, y el de 2027 con el Perito
 Moreno ampliado solo si la obra llega el 1 de abril.
 
+**El invierno entero, contra los barcos.** El día más frío dice dónde está el cuello; los 153 días
+de mayo a septiembre dicen cuánto cuesta. Para cada día se corre el flujo máximo sin barcos con la
+demanda del parte y la producción de ese mes; el faltante del día es el GNL mínimo que ese día
+necesita. Con la red de hoy son 498 millones de m³ en 83 días (correlación diaria con el GNL real,
+0,82), más 96 en el NOA que el GNL no puede cubrir y que en 2026 trajo Bolivia. A 0,65 millones de
+dólares por millón de m³ puesto en Escobar (2025 costó 0,54), cada obra se paga con el GNL que
+evita:
+
+| Obra | Costo (MUSD) | GNL mínimo, invierno 2026 | Inviernos para pagarse | Invierno frío: GNL mínimo | Inviernos para pagarse |
+|---|---|---|---|---|---|
+| La red de hoy | | 498 | | 956 | |
+| Perito Moreno 35 + salida al GBA (2027) | 780 | 18 | 2,5 | 131 | 1,5 |
+| Compresoras del Norte | sin publicar | 498 | no ahorra GNL | 956 | no ahorra GNL |
+| Tratayén–La Carlota (2029) | 1.500 | 16 | 4,8 | 121 | 2,8 |
+| Tratayén–La Carlota + loops TGN (2029) | 2.200 | 10 | 6,9 | 98 | 3,9 |
+| Kirchner etapa 2 (estimado a 2 MUSD/km) | 950 | 3 | 3,0 | 36 | 1,6 |
+| Perito Moreno + Tratayén–La Carlota + loops | 2.980 | 0 | 9,2 | 0 | 4,8 |
+| Perito Moreno + Kirchner etapa 2 | 1.730 | 0 | 5,3 | 0 | 2,8 |
+
+![Las obras contra los barcos](docs/figures/red_balance.png)
+
+Las tres obras hacia el centro y Buenos Aires se pagan solas en dos a cinco inviernos; la que mejor
+rinde por dólar es la que está en obra, el Perito Moreno, y la segunda es la que nadie tiene en
+agenda, la etapa 2 del Kirchner. El GNL evitado es un piso: supone que Neuquén produce lo que el
+caño nuevo deja sacar y no cuenta el gas que hoy se corta a la industria ni el gasoil de las
+centrales. Y las compresoras del Norte no evitan un solo barco: su gas va al NOA, que es otro
+problema, el de Bolivia.
+
 ## Limitaciones
 
 - **La red es un flujo máximo, no una simulación hidráulica.** Sin presiones, line pack ni
@@ -176,6 +204,10 @@ Moreno ampliado solo si la obra llega el 1 de abril.
   los usuarios directos de cada transportista se reparten con proporciones fijas porque el parte
   no dice dónde están, y los cortes dentro de un área no se ven. La demanda del parte es la
   entregada después de los cortes, así que el faltante real de un día frío es mayor.
+- **El repago de las obras** usa el GNL que evitan a un precio fijo (0,65 MUSD por millón de m³)
+  y supone que Neuquén produce lo que el caño nuevo deja sacar. No cuenta el gas que hoy se
+  corta a la industria, el gasoil de las centrales ni las exportaciones que el caño permite: por
+  eso es un piso. El costo de la etapa 2 del Kirchner es una estimación por kilómetro.
 
 - **La temperatura** es la del reanálisis ERA5 en una ciudad por área de distribución, ponderada
   por el consumo total de cada distribuidora. En las áreas grandes, una ciudad es una
