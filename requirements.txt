@@ -6,6 +6,9 @@ scipy>=1.11
 matplotlib>=3.8
 requests>=2.31
 pdfplumber>=0.11
+networkx>=3.2
+geopandas>=1.0
+shapely>=2.0
 pytest>=8
 jupyter
 nbformat

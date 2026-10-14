@@ -64,11 +64,17 @@ footer{margin-top:48px;color:var(--muted);font-size:.85rem;border-top:1px solid 
 </tbody></table></div>
 <p class="nota">El faltante físico es el balance nacional contra el techo de gas propio de 2026, el mínimo a cubrir. El GNL que se usa es más: entra por Escobar, al lado del AMBA, y cubre un cuello regional; además se contrata antes del invierno. Todo supone la capacidad de transporte de 2026.</p>
 
+<h2>Por dónde pasa el gas</h2>
+<p>La red troncal como problema de flujo: las cinco cuencas y el GNL como orígenes, las compresoras como nodos, las distribuidoras como destinos, y en cada arco la capacidad del tramo que publica el ENARGAS. El 3 de julio de 2026, el día más frío, Neuquén produjo 122 millones de m³ y los caños que salen de la cuenca suman 99. Con el GNL de Escobar la red entrega los 148 que se pidieron; sin los barcos, faltan 19, de los cuales 16 en el AMBA.</p>
+<figure><img src="figures/red_hoy.png" alt="La red el día más frío de 2026 sin los barcos"><figcaption>En rojo los caños llenos y los destinos con faltante. El GNL no cubre falta de gas: cubre falta de caño hacia el AMBA, que es donde entra.</figcaption></figure>
+<figure><img src="figures/red_obras.png" alt="Faltante con cada obra"><figcaption>Ninguna obra sola cierra el día más frío sin barcos. El Perito Moreno ampliado (2027) resuelve el AMBA; el Tratayén–La Carlota (2029), Santa Fe y el NEA. Hacen falta las dos.</figcaption></figure>
+
 <h2>Cómo</h2>
 <ul>
   <li>Consumo mensual por tipo de usuario y distribuidora del ENARGAS desde 1996, por la API de series del Estado.</li>
   <li>Partes diarios del ENARGAS desde 2014: consumo por distribuidora, inyección total, GNL e importación por el norte.</li>
   <li>Temperatura diaria del reanálisis ERA5 en una ciudad por distribuidora, convertida en grados-día de calefacción.</li>
+  <li>Producción por cuenca y trazas de gasoductos de la Secretaría de Energía; capacidad por tramo del informe anual 2025 del ENARGAS; flujo máximo con networkx.</li>
   <li>Código, tests y notebooks: <a href="https://github.com/dpinero14/gas-lab">github.com/dpinero14/gas-lab</a>.</li>
 </ul>
 

@@ -129,3 +129,38 @@ def test_pico_diario():
     e = winter_ensemble(pd.Series(h, index=idx), p, 35.0, 5.0, 120.0, range(2025, 2026))
     g2 = season_gap(thermal(pd.Series(h, index=idx)), p, 35.0, 5.0, techo=120.0)
     assert e.loc[2025, "dias_con_faltante"] == int((g2["falta"] > 0).sum())
+
+
+def test_red_demanda_suma_el_parte():
+    from glab import red
+    parte = {"gasnor": 4836.0, "cuyana": 10632.0, "centro": 9813.0, "litoral": 8320.0, "naturgy_ban": 18024.0, "metrogas": 22866.0,
+             "pampeana": 22135.0, "sur": 18637.0, "gasnea": 1441.0, "tgn_directo": 13035.0, "tgs_directo": 17525.0, "total_sistema": 147264.0}
+    d = red.demanda_del_dia(parte, exportacion=0.0)
+    assert abs(d.sum() - parte["total_sistema"] / 1000) < 0.01
+    assert d["GBA"] > d["CORDOBA"] > d["NOA"] > d["NEA"]
+
+
+def test_red_flujo_maximo_reproduce_el_cuello():
+    from glab import red
+    parte = {"gasnor": 4836.0, "cuyana": 10632.0, "centro": 9813.0, "litoral": 8320.0, "naturgy_ban": 18024.0, "metrogas": 22866.0,
+             "pampeana": 22135.0, "sur": 18637.0, "gasnea": 1441.0, "tgn_directo": 13035.0, "tgs_directo": 17525.0}
+    dem = red.demanda_del_dia(parte, exportacion=1.0)
+    prod = {"neuquina": 122.2, "austral": 25.2, "gsj": 7.9, "noroeste": 2.65}
+    con = red.flujo_maximo(red.grafo(), red.oferta_del_dia(prod, gnl=20.3, bolivia=1.9), dem)
+    sin = red.flujo_maximo(red.grafo(), red.oferta_del_dia(prod, gnl=0.0, bolivia=0.0), dem)
+    # con el GNL de ese día el sistema entrega casi todo; sin él, el faltante es del orden del GNL que entró
+    assert con["faltante"].sum() < 3.0
+    assert 15.0 < sin["faltante"].sum() < 25.0
+    assert sin["faltante"]["GBA"] > 10.0
+    # el gas de Neuquén que no sale es por caño, no por producción
+    assert sin["usado"]["NEUQUINA"] < prod["neuquina"] - 15
+    # un caño infinito desde Neuquén hace desaparecer el faltante
+    libre = red.flujo_maximo(red.grafo(capacidades={("NEUQUINA", "ORDOQUI"): 99.0, ("ORDOQUI", "GBA"): 99.0, ("NEUQUINA", "PUELEN"): 99.0,
+                                                    ("PUELEN", "LA_MORA"): 99.0, ("LA_MORA", "BEAZLEY"): 99.0, ("BEAZLEY", "LA_CARLOTA"): 99.0, ("LA_CARLOTA", "SAN_JERONIMO"): 99.0,
+                                                    ("LA_CARLOTA", "TIO_PUJIO"): 99.0, ("TIO_PUJIO", "FERREYRA"): 99.0, ("FERREYRA", "TUCUMAN"): 99.0}),
+                             red.oferta_del_dia(prod, gnl=0.0, bolivia=0.0), dem)
+    assert libre["faltante"].sum() < 1.0
+    # las obras suman capacidad, nunca la restan
+    for o in red.OBRAS:
+        r = red.flujo_maximo(red.grafo([o]), red.oferta_del_dia(prod, gnl=0.0, bolivia=0.0), dem)
+        assert r["faltante"].sum() <= sin["faltante"].sum() + 1e-6

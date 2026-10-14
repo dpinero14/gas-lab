@@ -18,6 +18,7 @@ test:
 
 data:
 	$(BIN)/python scripts/download_data.py
+	$(BIN)/python scripts/download_red.py
 
 partes:
 	$(BIN)/python scripts/download_partes.py 2014-01-01 --invierno
@@ -26,3 +27,4 @@ partes:
 notebooks:
 	$(BIN)/python -m jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.kernel_name=gas-lab --ExecutePreprocessor.timeout=7200 notebooks/01_la_demanda_y_el_frio.ipynb
 	$(BIN)/python -m jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.kernel_name=gas-lab --ExecutePreprocessor.timeout=7200 notebooks/02_alcanza_el_gas.ipynb
+	$(BIN)/python -m jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.kernel_name=gas-lab --ExecutePreprocessor.timeout=7200 notebooks/03_la_red.ipynb

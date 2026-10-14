@@ -198,3 +198,89 @@ def next_winter(ens: pd.DataFrame, real: dict, path) -> Path:
 
 
 __all__ = ["seasonality", "redistribution", "validation", "scenarios", "winters", "winter_days", "next_winter"]
+
+
+# --- la red troncal (notebook 3) -------------------------------------------------------------------
+
+def _mapa_base(ax, outline, lineas):
+    """El contorno del país y las trazas reales de los gasoductos troncales, de fondo."""
+    import numpy as np
+    for p in outline:
+        ax.fill(p[:, 0], p[:, 1], color="#15232d", zorder=0)
+        ax.plot(p[:, 0], p[:, 1], color="#2b3f4c", linewidth=0.5, zorder=1)
+    for l in lineas:
+        ax.plot(l[:, 0], l[:, 1], color="#3a5062", linewidth=0.8, zorder=2)
+    ax.set_xlim(-74.5, -52.5)
+    ax.set_ylim(-55.5, -21.0)
+    ax.set_aspect(1.25)
+    ax.axis("off")
+
+
+def red_mapa(res: dict, nodos: dict, demanda: pd.Series, outline, lineas, path, titulo: str, subtitulo: str) -> Path:
+    """El mapa de la red el día elegido: cada arco pintado por cuánto de su capacidad usó."""
+    plt = _plt()
+    fig = plt.figure(figsize=(9.5, 11), facecolor=BG)
+    ax = fig.add_axes([0.02, 0.04, 0.96, 0.84])
+    _mapa_base(ax, outline, lineas)
+    arcos = res["arcos"]
+    rotulos = {"NEUQUINA": "Neuquén", "AUSTRAL": "Austral", "GOLFO_SJ": "Golfo S. Jorge", "NOROESTE": "Noroeste", "ESCOBAR": "GNL Escobar",
+               "GBA": "AMBA", "BAHIA_BLANCA": "Bahía Blanca", "PAMPEANA_INT": "interior bonaerense", "PATAGONIA": "Patagonia sur",
+               "SUR_CUENCA": "Neuquén, Río Negro\ny La Pampa", "MENDOZA": "Cuyo", "CORDOBA": "Córdoba", "SANTA_FE": "Santa Fe", "NOA": "NOA", "NEA": "NEA"}
+    for _, a in arcos.sort_values("capacidad").iterrows():
+        if a["capacidad"] >= 99 or a["capacidad"] <= 0:
+            continue
+        (x0, y0), (x1, y1) = nodos[a["origen"]], nodos[a["destino"]]
+        uso = a["uso"]
+        color = ROJO if uso >= 0.95 else AMBAR if uso >= 0.6 else GRIS if uso > 0.02 else "#2f4150"
+        lw = 1.2 + a["capacidad"] / 6.0
+        ax.plot([x0, x1], [y0, y1], color=color, linewidth=lw, solid_capstyle="round", alpha=0.95 if uso > 0.02 else 0.8,
+                linestyle="-" if uso > 0.02 else (0, (2, 2)), zorder=4)
+    for n, q in demanda.items():
+        if n not in nodos or q <= 0:
+            continue
+        x, y = nodos[n]
+        falta = res["faltante"].get(n, 0.0)
+        ax.scatter([x], [y], s=28 + q * 9, color=BG, edgecolor=ROJO if falta > 0.05 else INK, linewidth=1.6 if falta > 0.05 else 1.0, zorder=6)
+        txt = f"{rotulos.get(n, n)}\n{q:.0f}" + (f"  falta {falta:.0f}" if falta > 0.05 else "")
+        off = {"SUR_CUENCA": (-10, -14), "BAHIA_BLANCA": (10, -16), "PATAGONIA": (10, -2), "MENDOZA": (-10, 6), "CHILE": (-10, -4)}.get(n, (8, 4))
+        ha = "right" if off[0] < 0 else "left"
+        ax.annotate(txt, (x, y), xytext=off, textcoords="offset points", color=ROJO if falta > 0.05 else INK, fontsize=8, ha=ha, zorder=7)
+    usado = res["usado"]
+    origenes = {"NEUQUINA": ("Neuquén", usado.get("NEUQUINA", 0.0)), "AUSTRAL": ("Austral y Golfo S. Jorge", usado.get("AUSTRAL", 0.0) + usado.get("GOLFO_SJ", 0.0)),
+                "NOROESTE": ("Noroeste y Bolivia", usado.get("NOROESTE", 0.0) + usado.get("BOLIVIA", 0.0)), "ESCOBAR": ("GNL Escobar", usado.get("ESCOBAR", 0.0))}
+    for n, (rot, u) in origenes.items():
+        if u < 0.05:
+            continue
+        x, y = nodos[n]
+        ax.scatter([x], [y], s=60 + u * 6, color=AZUL, alpha=0.85, zorder=5)
+        dx, dy, ha, va = {"ESCOBAR": (10, -4, "left", "top"), "NEUQUINA": (-12, 10, "right", "bottom")}.get(n, (-8, -4, "right", "top"))
+        ax.annotate(f"{rot}\n{u:.0f}", (x, y), xytext=(dx, dy), textcoords="offset points", color=AZUL, fontsize=8, ha=ha, va=va, zorder=7)
+    _titles(fig, titulo, subtitulo, fuente="gas-lab · capacidades: ENARGAS informe anual 2025 y partes diarios · trazas: Secretaría de Energía · producción: Capítulo IV")
+    leyenda = [(ROJO, "caño lleno (≥ 95 %)"), (AMBAR, "60 a 95 %"), (GRIS, "menos del 60 %"), ("#2f4150", "vacío"), (AZUL, "origen: gas usado, MMm³/d"), (ROJO, "destino con faltante")]
+    for i, (c, t) in enumerate(leyenda):
+        fig.text(0.06 + (i % 3) * 0.31, 0.875 - (i // 3) * 0.022, "■ " + t, color=c, fontsize=8.5)
+    return _save(fig, path)
+
+
+def red_obras(tablas: dict[str, pd.DataFrame], path, orden: list[str], rotulos: dict[str, str]) -> Path:
+    """El faltante por transporte con cada combinación de obras, en dos escenarios."""
+    plt = _plt()
+    fig, axes = plt.subplots(1, len(tablas), figsize=(11.5, 5.4), facecolor=BG)
+    axes = list(axes) if len(tablas) > 1 else [axes]
+    for k, (ax, (titulo, t)) in enumerate(zip(axes, tablas.items())):
+        _style(ax, grid="x")
+        y = range(len(orden))
+        vals = [t.loc[o, "faltante_total"] for o in orden]
+        colores = [ROJO if v > 5 else AMBAR if v > 0.5 else VERDE for v in vals]
+        ax.barh(list(y), vals, color=colores, height=0.62, zorder=3)
+        for yy, v in zip(y, vals):
+            ax.text(v + 0.4, yy, f"{v:.0f}" if v >= 0.5 else "0", color=INK, fontsize=9, va="center")
+        ax.set_yticks(list(y))
+        ax.set_yticklabels([rotulos[o] for o in orden] if k == 0 else [""] * len(orden), color=INK, fontsize=9)
+        ax.set_ylim(len(orden) - 0.4, -0.6)
+        ax.set_title(titulo, color=INK, fontsize=10.5, loc="left", pad=8)
+        ax.set_xlabel("faltante por transporte, millones de m³ por día, sin GNL", color=MUTED, fontsize=9)
+    _titles(fig, "Qué obra cierra el día más frío sin barcos", "faltante que queda por falta de caño, con cada obra y sus combinaciones",
+            fuente="gas-lab · capacidades: ENARGAS informe anual 2025 · obras: TGS (RIGI 676/2026), TGN (17/9/2026), Enarsa, Secretaría de Energía")
+    fig.subplots_adjust(top=0.80, bottom=0.13, left=0.30, right=0.98, wspace=0.06)
+    return _save(fig, path)

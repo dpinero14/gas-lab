@@ -24,6 +24,7 @@ cuánto gas entró al sistema cada día y de dónde vino.
 |---|---|
 | `01_la_demanda_y_el_frio` | Consumo mensual 1996-2026 por tipo de usuario, las dos estacionalidades opuestas (hogares en invierno, centrales en verano), la redistribución del frío, diez años de pronósticos antes de cada invierno con cinco modelos, y el invierno 2027 con el tiempo de cada invierno desde 1997. |
 | `02_alcanza_el_gas` | Los partes diarios 2014-2026: cómo se cubrió cada invierno (gas propio, GNL por barco, importación por el norte), el invierno 2026 día por día, la demanda prioritaria contra el frío del día, y cuánto faltaría el invierno 2027 con el tiempo de cada invierno desde 1997. |
+| `03_la_red` | La red troncal como problema de flujo: las cinco cuencas, los gasoductos con la capacidad de cada tramo entre compresoras (ENARGAS, informe anual 2025) y la demanda del día más frío por distribuidora. Flujo máximo con la red de hoy, con y sin barcos: a quién no le llega y qué caños están llenos. Después, cada obra anunciada, sola y combinada. |
 
 Las funciones están en `src/glab/`: `series.py` trae las series del ENARGAS por la API del
 Estado; `clima.py` la temperatura ERA5 y los grados-día; `partes.py` baja y lee los partes
@@ -108,7 +109,73 @@ cada nivel de frío entre 2024 y 2026, es la que más se parece a lo que va a pa
 
 ![El invierno que viene](docs/figures/invierno_2027.png)
 
+### Por dónde pasa el gas: la red como problema de flujo (notebook 3)
+
+El gas está en un solo lugar y los caños que salen de ahí están llenos. La producción creció 42
+millones de m³ por día en doce años y toda la suba fue de la cuenca Neuquina; las otras cuatro
+cayeron. En el invierno 2026 Neuquén produjo 121 millones por día y los gasoductos que salen de
+la cuenca hacia el resto del país suman 99 de capacidad: Neuba I y II (38), Perito Moreno (24) y
+Centro Oeste (37). La cuenca produce lo que el caño deja sacar.
+
+| Producción de invierno (jun-ago), MMm³/d | 2014 | 2019 | 2024 | 2026 |
+|---|---|---|---|---|
+| Neuquina | 64 | 90 | 113 | 121 |
+| Austral | 28 | 35 | 24 | 25 |
+| Golfo San Jorge | 14,5 | 13 | 10 | 8 |
+| Noroeste | 8 | 5 | 3 | 3 |
+| Total | 115 | 143 | 151 | 157 |
+
+El sistema licenciado tiene 157 millones por día de capacidad nominal, sin cambios desde 2023 y
+sin un metro cúbico nuevo en TGN desde 2015. Lo que importa es cuánto se usa de cada caño. En el
+invierno 2026 (gas recibido por gasoducto, ENARGAS): Neuba I y II con el Perito Moreno, 74 de 72;
+Centro Oeste, 37 de 34; Gasoducto Norte, 3 de 28; San Martín, 24 de 41. Los 42 millones de
+capacidad libre están en los caños que vienen del norte y del sur, donde ya no hay gas.
+
+Con eso se arma la red: las cuencas y las entradas de importación como orígenes, las compresoras
+como nodos de paso, las áreas de las distribuidoras como destinos, y en cada arco la capacidad
+operativa del tramo. El flujo máximo del 3 de julio de 2026, el día más frío, reproduce lo que
+pasó: con los 20 millones de GNL de Escobar y los 2 de Bolivia, el sistema entrega los 148 que
+se pidieron (quedan 0,9 sin asignar, dentro del error del reparto por nodo). Sin los barcos, la
+misma red entrega 129: faltan 19, de los cuales 16 en el AMBA, y los caños saturados son los de
+Neuquén a Bahía Blanca, de Ordoqui a Buenos Aires y la cabecera del Centro Oeste. El GNL no cubre
+falta de gas: cubre falta de caño hacia el AMBA, que es donde entra.
+
+![La red el día más frío](docs/figures/red_hoy.png)
+
+Las obras, con las mismas reglas: cuánto faltante queda sin barcos con cada una, el día más frío
+de 2026 tal cual fue y un día frío de un invierno frío (distribuidoras un 8 % arriba, Neuquén en
+135).
+
+| Obra | Capacidad que suma | Cuándo | Faltante 2026 | Faltante invierno frío |
+|---|---|---|---|---|
+| La red de hoy | | | 19 | 27 |
+| Perito Moreno 21 → 35 y su salida al GBA (TGS, en obra) | +14 y +12 | abril 2027 | 7 | 15 |
+| Compresoras del Gasoducto Norte (Enarsa, paradas) | +4 hacia el NOA | sin fecha | 19 | 27 |
+| Tratayén–La Carlota (TGN) | +13 a Córdoba | abril 2029 | 6 | 14 |
+| Tratayén–La Carlota + loops y compresión TGN | +13 y +14 | abril 2029 | 6 | 14 |
+| Kirchner etapa 2, Salliqueló–San Jerónimo (proyectado) | +21 | sin fecha | 2 | 11 |
+| Perito Moreno 35 + Tratayén–La Carlota + loops | | 2029 | 0 | 1,5 |
+| Perito Moreno 35 + Kirchner etapa 2 | | sin fecha | 0 | 0 |
+
+![Qué obra cierra el día más frío](docs/figures/red_obras.png)
+
+Ninguna obra sola cierra el día más frío sin barcos. Las compresoras del Norte no cambian nada en
+el centro: llevan gas al NOA, donde el faltante es de 2. El Perito Moreno ampliado baja el
+faltante del AMBA de 16 a 2 pero no toca el de Santa Fe y el NEA; el Tratayén–La Carlota hace lo
+contrario. Lo que cierra el invierno es una obra hacia Buenos Aires más una hacia el centro: el
+Perito Moreno de 2027 con el Tratayén–La Carlota de 2029, o el Perito Moreno con la etapa 2 del
+Kirchner, que nadie tiene en agenda. Dos inviernos a barco como mínimo, y el de 2027 con el Perito
+Moreno ampliado solo si la obra llega el 1 de abril.
+
 ## Limitaciones
+
+- **La red es un flujo máximo, no una simulación hidráulica.** Sin presiones, line pack ni
+  combustible de compresoras. Las capacidades por tramo del ENARGAS son flujos de diseño; donde
+  el invierno 2026 mostró más (cabecera del Centro Oeste, Perito Moreno, Beazley–La Carlota sin
+  exportación a Chile), se usa lo observado y se declara en el código. Un nodo por distribuidora:
+  los usuarios directos de cada transportista se reparten con proporciones fijas porque el parte
+  no dice dónde están, y los cortes dentro de un área no se ven. La demanda del parte es la
+  entregada después de los cortes, así que el faltante real de un día frío es mayor.
 
 - **La temperatura** es la del reanálisis ERA5 en una ciudad por área de distribución, ponderada
   por el consumo total de cada distribuidora. En las áreas grandes, una ciudad es una
@@ -135,9 +202,11 @@ python -m venv .venv
 .venv\Scripts\python.exe -m ipykernel install --user --name gas-lab --display-name "gas-lab"
 .venv\Scripts\python.exe scripts/download_data.py
 .venv\Scripts\python.exe scripts/download_partes.py 2014-01-01 --invierno
+.venv\Scripts\python.exe scripts/download_red.py
 .venv\Scripts\python.exe -m pytest -q tests
 .venv\Scripts\python.exe -m jupyter nbconvert --to notebook --execute --inplace notebooks/01_la_demanda_y_el_frio.ipynb
 .venv\Scripts\python.exe -m jupyter nbconvert --to notebook --execute --inplace notebooks/02_alcanza_el_gas.ipynb
+.venv\Scripts\python.exe -m jupyter nbconvert --to notebook --execute --inplace notebooks/03_la_red.ipynb
 ```
 
 La descarga de los partes pide al servidor del ENARGAS con seis pedidos a la vez; los inviernos
@@ -152,6 +221,16 @@ queda guardada. En Linux, en lugar de `.venv\Scripts\python.exe`, `.venv/bin/pyt
   <https://www.enargas.gob.ar/secciones/transporte-y-distribucion/dod-partes-dist-trans.php>
 - ERA5, Copernicus Climate Change Service (ECMWF), vía el archivo histórico de Open-Meteo
   (CC BY 4.0): <https://open-meteo.com/en/docs/historical-weather-api>
+- Secretaría de Energía, producción de gas natural por cuenca (Capítulo IV) y gasoductos de
+  transporte y plantas compresoras (capas del ENARGAS), CC BY 4.0: <http://datos.energia.gob.ar>
+- ENARGAS, informe anual 2025, capacidad de inyección por gasoducto y operativa por tramo entre
+  compresoras (páginas 203 a 205) y gas inyectado por cuenca (209), transcriptas en `data/`:
+  <https://www.enargas.gob.ar/secciones/publicaciones/informes-anuales-de-balance-y-gestion/>
+- ENARGAS, datos operativos de transporte (gas recibido por gasoducto, contratos firmes):
+  <https://www.enargas.gob.ar/secciones/transporte-y-distribucion/datos-operativos-subsec.php?sec=2&subsec=4&subsecord=04>
+- IGN, capa de provincias por WFS: <https://wms.ign.gob.ar/geoserver>
+- Obras: TGS, ampliación del Perito Moreno (RIGI, Res. 676/2026); TGN, Gasoducto Manuel Belgrano
+  Tratayén–La Carlota (anuncio del 17/9/2026); Enarsa, reversión del Gasoducto Norte.
 - El trabajo sobre España que inspiró la comparación: Diego Agudo,
   <https://github.com/diegoagudoa-eng/gas-demand-forecasting-sarima>
 

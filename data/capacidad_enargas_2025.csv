@@ -1,0 +1,63 @@
+licenciataria,gasoducto,tramo,capacidad_mmm3d,tipo
+TGN,Norte,inyeccion total,28.53,inyeccion
+TGN,Norte,Refinor - Pichanal,28.42,tramo
+TGN,Norte,Pichanal - Miraflores,28.36,tramo
+TGN,Norte,Miraflores - Lumbreras,24.69,tramo
+TGN,Norte,Lumbreras - Tucuman,21.00,tramo
+TGN,Norte,Tucuman - Lavalle,17.98,tramo
+TGN,Norte,Lavalle - Recreo,15.09,tramo
+TGN,Norte,Recreo - Dean Funes,15.03,tramo
+TGN,Norte,Dean Funes - Ferreyra,14.76,tramo
+TGN,Norte,Ferreyra - Tio Pujio,13.42,tramo
+TGN,Norte,Tio Pujio - Leones,9.35,tramo
+TGN,Norte,Leones - San Jeronimo,9.27,tramo
+TGN,Centro Oeste,inyeccion total,34.10,inyeccion
+TGN,Centro Oeste,Loma La Lata - Puelen,33.97,tramo
+TGN,Centro Oeste,Puelen - Cochico,33.80,tramo
+TGN,Centro Oeste,Cochico - La Mora,33.40,tramo
+TGN,Centro Oeste,La Mora - Beazley,27.18,tramo
+TGN,Centro Oeste,Beazley - Chajan,17.48,tramo
+TGN,Centro Oeste,Chajan - La Carlota,16.96,tramo
+TGN,Centro Oeste,La Carlota - Baldissera,16.68,tramo
+TGN,Centro Oeste,Baldissera - San Jeronimo,16.55,tramo
+TGN,Centro Oeste,San Jeronimo - Aldea Brasilera,7.91,tramo
+TGN,Tramos finales,Nodo San Jeronimo - Buenos Aires,18.53,tramo
+TGS,Neuba I + Cordillerano + Huincul,inyeccion total,15.46,inyeccion
+TGS,Neuba I,inyeccion total,12.60,inyeccion
+TGS,Neuba I,Sierra Barrosa - Chelforo,10.41,tramo
+TGS,Neuba I,Chelforo - Fortin 1,9.82,tramo
+TGS,Neuba I,Fortin 1 - Gaviotas,9.62,tramo
+TGS,Neuba I,Gaviotas - General Cerri,9.56,tramo
+TGS,Cordillerano,inyeccion total,1.74,inyeccion
+TGS,Huincul y regionales,inyeccion total,1.12,inyeccion
+TGS,Neuba II,inyeccion total,38.11,inyeccion
+TGS,Neuba II,Loma La Lata - Cervantes,29.57,tramo
+TGS,Neuba II,Cervantes - Belisle,28.63,tramo
+TGS,Neuba II,Belisle - La Adela,28.45,tramo
+TGS,Neuba II,La Adela - General Cerri,28.45,tramo
+TGS,San Martin,inyeccion total,41.05,inyeccion
+TGS,San Martin,San Sebastian - Magallanes,27.88,tramo
+TGS,San Martin,Magallanes - Moy Aike,28.58,tramo
+TGS,San Martin,Moy Aike - Piedra Buena,29.20,tramo
+TGS,San Martin,Piedra Buena - San Julian,28.92,tramo
+TGS,San Martin,San Julian - Rio Seco,28.66,tramo
+TGS,San Martin,Rio Seco - Bosque Petrificado,28.38,tramo
+TGS,San Martin,Bosque Petrificado - Pico Truncado,28.12,tramo
+TGS,San Martin,Pico Truncado - Manantiales Behr,37.16,tramo
+TGS,San Martin,Manantiales Behr - Garayalde,35.20,tramo
+TGS,San Martin,Garayalde - Dolavon,34.96,tramo
+TGS,San Martin,Dolavon - Gualicho,30.30,tramo
+TGS,San Martin,Gualicho - San Antonio Oeste,30.08,tramo
+TGS,San Martin,San Antonio Oeste - Conesa,29.68,tramo
+TGS,San Martin,Conesa - Rio Colorado,29.08,tramo
+TGS,San Martin,Rio Colorado - General Cerri,29.01,tramo
+TGS,Tramos finales,NI General Cerri - Indio Rico,24.40,tramo
+TGS,Tramos finales,NI Indio Rico - Olavarria,9.44,tramo
+TGS,Tramos finales,NI Olavarria - General Las Heras,8.87,tramo
+TGS,Tramos finales,SM Indio Rico - Barker,13.61,tramo
+TGS,Tramos finales,SM Barker - Buchanan,8.68,tramo
+TGS,Tramos finales,NII General Cerri - Saturno,38.75,tramo
+TGS,Tramos finales,NII Saturno - Ordoqui,37.14,tramo
+TGS,Tramos finales,NII Ordoqui - General Las Heras,30.06,tramo
+TGS+TGN,Tramos finales,Anillo Gran Buenos Aires,48.92,tramo
+SISTEMA,Total,capacidad de inyeccion al 31/12/2025,157.30,inyeccion

@@ -30,12 +30,33 @@ escribe Diego.
    millones de m³ de faltante y entraron 1.017: el GNL entra por Escobar, al lado del AMBA, y
    cubre un cuello regional, no solo nacional.
 
+9. **El gas está en un solo lugar y los caños que salen de ahí están llenos.** Toda la suba de
+   producción de doce años (+42 millones de m³ por día) es de Neuquén; Austral, Golfo San Jorge y
+   Noroeste caen. En el invierno 2026 Neuquén produjo 121 por día y los caños que salen de la
+   cuenca suman 99. La cuenca produce lo que el caño deja sacar: por eso agosto dio la primera
+   caída interanual.
+10. **El sistema tiene 42 millones de capacidad libre, en los caños equivocados.** Gasoducto Norte
+    3 de 28 (sin Bolivia), San Martín 24 de 41 (la Austral cae). Los de Neuquén: Neuba y Perito
+    Moreno 74 de 72, Centro Oeste 37 de 34. TGN no suma un metro cúbico desde 2015.
+11. **El día más frío sin barcos, calculado con flujo máximo sobre la red: faltan 19, 16 de
+    ellos en el AMBA.** Con los 20 de GNL de Escobar y los 2 de Bolivia la red entrega todo. Los
+    caños saturados: Neuquén–Bahía Blanca, Ordoqui–Buenos Aires y la cabecera del Centro Oeste.
+    El GNL no cubre falta de gas: cubre falta de caño hacia el AMBA, que es donde entra.
+12. **Ninguna obra sola cierra el invierno.** El Perito Moreno ampliado (2027) baja el faltante
+    del AMBA de 16 a 2 pero no toca Santa Fe ni el NEA; el Tratayén–La Carlota (2029) hace lo
+    contrario; las compresoras del Norte no cambian nada en el centro. Cierran el día más frío
+    sin barcos: Perito Moreno + Tratayén–La Carlota, o Perito Moreno + la etapa 2 del Kirchner,
+    que nadie tiene en agenda. Dos inviernos a barco como mínimo.
+
 ## Límites
 
 - Temperatura del reanálisis ERA5 en una ciudad por distribuidora.
 - Partes diarios provisorios; antes de 2019 no separan el gas de Bolivia.
 - Balance nacional, sin cuellos regionales; supone la capacidad de 2026.
 - Sin precios ni tarifas en los modelos.
+- La red es un flujo máximo con un nodo por distribuidora y los directos repartidos con
+  proporciones fijas; sin presiones ni combustible; capacidades de diseño del ENARGAS, con lo
+  observado donde fue mayor.
 
 ## Ángulos posibles
 
@@ -43,6 +64,8 @@ escribe Diego.
 - El modelo de España contra la Argentina: por qué acá el más simple gana en el total.
 - ¿Alcanza el gas el invierno que viene? Cuántos barcos hacen falta según el frío.
 - De 27 % a 7 %: cómo Vaca Muerta y el Perito Moreno cambiaron el invierno.
+- Faltó caño, no gas: Neuquén produce 121 y tiene 99 de salida; qué obra cierra el invierno
+  (ninguna sola).
 
 ## Links
 
